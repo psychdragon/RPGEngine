@@ -30,7 +30,7 @@ namespace RPGEngine
                 selection = ConsoleUtils.GetFromConsole("Select creature to view stats(X to go back to main menu) : ");
                 if (selection.Trim().ToLower() == "x") break;
 
-                if (int.Parse(selection) < Creatures.Count) CreatureStats(Creatures[int.Parse(selection)]);
+                if (int.Parse(selection) < Creatures.Count) Creatures[int.Parse(selection)].GetStats();
                 else ConsoleUtils.LogInfo("Invalid creature selection");
             } while (selection.ToLower() != "x");
 
@@ -46,7 +46,7 @@ namespace RPGEngine
                 selection = ConsoleUtils.GetFromConsole("Select creature to edit(X to go back to main menu) : ");
                 if (selection.Trim().ToLower() == "x") break;
 
-                if (int.Parse(selection) < Creatures.Count) UpdateCreature(Creatures[int.Parse(selection)]);
+                if (int.Parse(selection) < Creatures.Count) Creatures[int.Parse(selection)].UpdateStats();
                 else ConsoleUtils.LogInfo("Invalid creature selection");
             } while (selection.ToLower() != "x");
 
@@ -54,23 +54,10 @@ namespace RPGEngine
 
         public void UpdateCreature(Creature creature)
         {
-            foreach (var propertyInfo in creature.GetType().GetProperties())
-            {
-                string newValue = ConsoleUtils.GetFromConsole("{0} ({1}):",propertyInfo.Name, propertyInfo.GetValue(creature, null));
-                if (newValue.Trim() != "") propertyInfo.SetValue(creature, newValue, null);
-                //ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(creature, null));
-            }
-        }
-
-        public void CreatureStats(Creature creature)
-        {
-            foreach (var propertyInfo in creature.GetType().GetProperties())
-            {
-                ConsoleUtils.LogOptions(propertyInfo.Name+" : {0}",propertyInfo.GetValue(creature,null));
-            }
-
             
         }
+
+       
 
         public void LoadCreatures(string[] creatureList)
         {
@@ -91,6 +78,7 @@ namespace RPGEngine
 
         public void Strike(Creature Attacker, Creature Defender)
         {
+
             Attacker.AttackCreature(Defender);
         }
 

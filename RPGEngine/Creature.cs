@@ -76,6 +76,29 @@ namespace RPGEngine
             
         }
 
+        public void GetStats()
+        {
+            foreach (var propertyInfo in GetType().GetProperties())
+            {
+                ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(this, null));
+            }
+        }
+
+        public void UpdateStats()
+        {
+            foreach (var propertyInfo in GetType().GetProperties())
+            {
+                ConsoleUtils.LogInfo("Type : {0}", propertyInfo.GetType().ToString());
+                string newValue = ConsoleUtils.GetFromConsole("{0} ({1}):", propertyInfo.Name, propertyInfo.GetValue(this, null));
+                if (newValue.Trim() != "")
+                {
+
+                    propertyInfo.SetValue(this, newValue, null);
+                }
+                //ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(creature, null));
+            }
+        }
+
         public void TakeHit(int damage)
         {
             ConsoleUtils.LogDanger("{0} takes {1} damage", Name, damage);
