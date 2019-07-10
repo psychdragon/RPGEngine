@@ -17,8 +17,8 @@ namespace RPGEngine
 
     public class SpeciesModifier
     {
-        public string SpeciesName { set; get; }
-        public string ElementType { set; get; }
+        public string SpeciesName { set; get; } = "Unknown";
+        public string ElementType { set; get; } = "Unknown";
     }
 
     public class InventoryItem : Entity
@@ -31,12 +31,14 @@ namespace RPGEngine
         public bool SingleUse { set; get; } = true; //If set to true, item will cease to exist after use.
     }
 
+    
+
     public class AttackMove
     {
-        public string Name { set; get; }
-        public string Description { set; get; }
-        public int Mastery { set; get; }
-        public int Damage { set; get; }
+        public string Name { set; get; } = "Unknown";
+        public string Description { set; get; } = "Unknown";
+        public int Mastery { set; get; } = 0;
+        public int Damage { set; get; } = 0;
 
         public AttackMove(string name,string description,int damage)
         {
@@ -50,23 +52,24 @@ namespace RPGEngine
 
     public class Creature : Entity
     {
-        public string GivenName { set; get; }
-        public string SpriteImageFile { set; get; }
+        public string GivenName { set; get; } = "Unknown";
+        
 
-        public int Health { set; get; }
-        public int Level { set; get; }
-        public int Attack { set; get; }
-        public int Defence { set; get; }
+        public int Health { set; get; } = 100;
+        public int Level { set; get; } = 0;
+        public int Attack { set; get; } = 0;
+        public int Defence { set; get; } = 0;
 
         public BasicAbility Ability { set; get; } = new BasicAbility();
         public SpeciesModifier Species { set; get; } = new SpeciesModifier();
         public List<AttackMove> AttackMoves { set; get; } = new List<AttackMove>();
-        public List<InventoryItem> Items { set; get; } = new List<InventoryItem>();
+        
 
 
-        public Creature(string name, string description, string spriteImageFile="NoImage", int health=100, int level=0, int attack=0, int defence=0)
+        public void InitCreature(string name, string description, string spriteImageFile="NoImage", int health=100, int level=0, int attack=0, int defence=0)
         {
             Name = name;
+            GivenName = name;
             Description = description;
             SpriteImageFile = spriteImageFile;
 
@@ -77,15 +80,13 @@ namespace RPGEngine
 
             AttackMoves.Add(new AttackMove("BasicAttack", "Forward charge. No Weapons.", 1));
             
-            
-            
         }
 
         
         public void SetPosition(int x, int y, int z=0, int reality=0,int direction=8)
         {
-            Position.X = x;//GameUtils.RandomInt(0, 500);
-            Position.Y = y;// GameUtils.RandomInt(0, 500);
+            Position.X = x;
+            Position.Y = y;
             Position.Z = z;
             Position.Reality = reality;
             if (direction > 7) Ability.FaceDirection = GameUtils.RandomInt(0, 8);

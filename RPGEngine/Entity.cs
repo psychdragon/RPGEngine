@@ -23,8 +23,10 @@ namespace RPGEngine
 
     public class Entity
     {
-        public string Name { set; get; }
-        public string Description { set; get; }
+        public string Name { set; get; } = "Unknown";
+        public string Description { set; get; } = "Unknown";
+
+        public string SpriteImageFile { set; get; } = "ImageFile";
 
         public int Weight { set; get; }
         public EntitySize Size { set; get; } = new EntitySize();

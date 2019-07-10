@@ -24,20 +24,44 @@ namespace RPGEngine
             return Rnd.Next(min, max);
         }
 
+        public static void GetListOfStats(string ListName,object ListItems, int Indent)
+        {
+            ConsoleUtils.LogOptions(ListName + " --> {0}",(ListItems as List<AttackMove>)[0].GetType());
+            foreach(AttackMove line in (ListItems as List<AttackMove>))
+            {
+                GetStats(line, Indent + 1);
+            }
+        }
+
         //Displays all the properties of the particular object sent to it. Object can be a creature, player or any item in the simulated world
         public static void GetStats(object Element,int Indent=0)
         {
             foreach (var propertyInfo in Element.GetType().GetProperties())
             {
                 var CurrentVal = propertyInfo.GetValue(Element, null);
-                string ValueType = CurrentVal.GetType().ToString();
-                ConsoleUtils.Indent(Indent,"  ");
-                if (ValueType == "System.String" || ValueType == "System.Int32")
-                    ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(Element, null));
-                else
+                if (CurrentVal != null)
                 {
-                    ConsoleUtils.LogOptions(propertyInfo.Name + " : ");
-                    GetStats(CurrentVal,Indent+1);
+                    string ValueType = CurrentVal.GetType().ToString();
+                    ConsoleUtils.Indent(Indent, "  ");
+                    if (ValueType == "System.String" || ValueType == "System.Int32" || ValueType == "System.Boolean" || ValueType == "System.Single")
+                        ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(Element, null));
+                    else if (ValueType.Contains("[RPGEngine.AttackMove]"))
+                    {
+                        ConsoleUtils.LogWarning(propertyInfo.Name + " -- ");
+                        foreach (AttackMove lineItem in (CurrentVal as List<AttackMove>))
+                            GetStats(lineItem, Indent + 1);
+                    }
+                    else if (ValueType.Contains("[RPGEngine.InventoryItem]"))
+                    {
+                        ConsoleUtils.LogWarning(propertyInfo.Name + " -- ");
+                        foreach(InventoryItem lineItem in (CurrentVal as List<InventoryItem>))
+                            GetStats(lineItem, Indent + 1);
+                    }
+                    else
+                    {
+                        ConsoleUtils.LogWarning(propertyInfo.Name + " -- ");
+                        GetStats(CurrentVal, Indent + 1);
+                    }
                 }
             }
         }

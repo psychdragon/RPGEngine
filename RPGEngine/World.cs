@@ -23,21 +23,30 @@ namespace RPGEngine
 
         public void AddCreature(string name, string description, string spriteImageFile="NoImage")
         {
-            Creatures.Add(new Creature(name, description, spriteImageFile));
+            Creature newCreature = new Creature();
+            newCreature.InitCreature(name, description, spriteImageFile);
+            Creatures.Add(newCreature);
+            Creatures[Creatures.Count - 1].SetPosition(GameUtils.RandomInt(0, Borders.X), GameUtils.RandomInt(0, Borders.Y));
         }
 
         public void ListCreatures()
         {
             CreatureSelectionMenu();
-
             string selection;
             do
             {
                 selection = ConsoleUtils.GetFromConsole("Select creature to view stats(X to go back to main menu) : ");
                 if (selection.Trim().ToLower() == "x") break;
-
-                if (int.Parse(selection) < Creatures.Count) GameUtils.GetStats(Creatures[int.Parse(selection)]);
-                else ConsoleUtils.LogInfo("Invalid creature selection");
+                try
+                {
+                    if (int.Parse(selection) < Creatures.Count) GameUtils.GetStats(Creatures[int.Parse(selection)]);
+                    else ConsoleUtils.LogInfo("Invalid creature selection");
+                }
+                catch
+                {
+                    continue;
+                }
+                
             } while (selection.ToLower() != "x");
 
         }
@@ -45,15 +54,21 @@ namespace RPGEngine
         public void EditCreature()
         {
             CreatureSelectionMenu();
-
             string selection;
             do
             {
                 selection = ConsoleUtils.GetFromConsole("Select creature to edit(X to go back to main menu) : ");
                 if (selection.Trim().ToLower() == "x") break;
-
-                if (int.Parse(selection) < Creatures.Count) GameUtils.UpdateStats(Creatures[int.Parse(selection)]);
-                else ConsoleUtils.LogInfo("Invalid creature selection");
+                try
+                {
+                    if (int.Parse(selection) < Creatures.Count) GameUtils.UpdateStats(Creatures[int.Parse(selection)]);
+                    else ConsoleUtils.LogInfo("Invalid creature selection");
+                }
+                catch
+                {
+                    continue;
+                }
+                
             } while (selection.ToLower() != "x");
 
         }

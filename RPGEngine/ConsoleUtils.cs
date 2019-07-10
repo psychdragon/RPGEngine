@@ -51,6 +51,8 @@ namespace Aze.Utilities
             Console.Write(prompt, argRep);
             return Console.ReadLine();
         }
+
+        
         public static void LogDanger(string text, params object[] argText)
         {
             LogPrompt(ConsoleColor.Red, text, argText);
