@@ -21,6 +21,7 @@ namespace RPGEngine
         {
             IOUtils.LoadSettings();
             InitMenu();
+            
         }
 
         public void Run(World world)
@@ -28,6 +29,8 @@ namespace RPGEngine
             ThisWorld = world;
 
             LoadCreatures();
+            InitWorld();
+
             /*
             ThisWorld.AddCreature("Wolf", "Simple wolf. nothing fancy");
             ThisWorld.AddCreature("Dog", "Simple dog. nothing fancy");
@@ -188,6 +191,22 @@ namespace RPGEngine
             ThisWorld.EditCreature();
         }
 
+        public void MoveTest()
+        {
+            foreach(Creature creature in ThisWorld.Creatures)
+            {
+                creature.Move(1, GameUtils.RandomInt(0, 8));
+            }
+        }
+
+        public void InitWorld()
+        {
+            foreach(Creature creature in ThisWorld.Creatures)
+            {
+                creature.SetPosition(GameUtils.RandomInt(0, ThisWorld.Borders.X), GameUtils.RandomInt(0, ThisWorld.Borders.Y));
+            }
+        }
+
 
         private void InitMenu()
         {
@@ -197,6 +216,7 @@ namespace RPGEngine
             ConsoleUtils.AddMenuItem("4", "Save Creatures", "SaveCreatures");
             ConsoleUtils.AddMenuItem("5", "Edit Creature", "EditCreature");
             ConsoleUtils.AddMenuItem("6", "Battle Test", "BattleTest");
+            ConsoleUtils.AddMenuItem("7", "Move Test", "MoveTest");
             /*
             ConsoleUtils.AddMenuItem("6", "Add Setting", "AddSetting");
             ConsoleUtils.AddMenuItem("7", "Edit Settings", "EditSettings");

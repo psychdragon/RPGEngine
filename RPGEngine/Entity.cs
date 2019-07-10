@@ -10,6 +10,8 @@ namespace RPGEngine
         public int Y { set; get; }
         public int Z { set; get; }
         public int Reality { set; get; }
+
+        
     }
 
     public class EntitySize
@@ -21,8 +23,13 @@ namespace RPGEngine
 
     public class Entity
     {
+        public string Name { set; get; }
+        public string Description { set; get; }
+
+        public int Weight { set; get; }
         public EntitySize Size { set; get; } = new EntitySize();
         public EntityPosition Position { set; get; } = new EntityPosition();
+
 
     }
 }

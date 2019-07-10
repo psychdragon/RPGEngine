@@ -7,12 +7,18 @@ using Newtonsoft.Json;
 
 namespace RPGEngine
 {
-
+    class WorldBorders
+    {
+        public int X { set; get; } = 50;
+        public int Y { set; get; } = 50;
+        public int Z { set; get; } = 50;
+        public int Reality { set; get; } = 0;
+    }
      
     class World
     {
         public List<Creature> Creatures = new List<Creature>();
-
+        public WorldBorders Borders = new WorldBorders();
         
 
         public void AddCreature(string name, string description, string spriteImageFile="NoImage")
