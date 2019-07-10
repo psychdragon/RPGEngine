@@ -30,7 +30,7 @@ namespace RPGEngine
                 selection = ConsoleUtils.GetFromConsole("Select creature to view stats(X to go back to main menu) : ");
                 if (selection.Trim().ToLower() == "x") break;
 
-                if (int.Parse(selection) < Creatures.Count) Creatures[int.Parse(selection)].GetStats();
+                if (int.Parse(selection) < Creatures.Count) GameUtils.GetStats(Creatures[int.Parse(selection)]);
                 else ConsoleUtils.LogInfo("Invalid creature selection");
             } while (selection.ToLower() != "x");
 
@@ -46,16 +46,13 @@ namespace RPGEngine
                 selection = ConsoleUtils.GetFromConsole("Select creature to edit(X to go back to main menu) : ");
                 if (selection.Trim().ToLower() == "x") break;
 
-                if (int.Parse(selection) < Creatures.Count) Creatures[int.Parse(selection)].UpdateStats();
+                if (int.Parse(selection) < Creatures.Count) GameUtils.UpdateStats(Creatures[int.Parse(selection)]);
                 else ConsoleUtils.LogInfo("Invalid creature selection");
             } while (selection.ToLower() != "x");
 
         }
 
-        public void UpdateCreature(Creature creature)
-        {
-            
-        }
+        
 
        
 
@@ -72,7 +69,9 @@ namespace RPGEngine
         {
             foreach (Creature creature in Creatures)
             {
-                ConsoleUtils.LogOptions("{0} - {1}", Creatures.IndexOf(creature), creature.Name);
+                string line = string.Format("{0} - {1}", Creatures.IndexOf(creature), creature.Name);
+                if (creature.Health <= 0) ConsoleUtils.LogDanger(line + "(dead)");
+                else ConsoleUtils.LogInfo(line);
             }
         }
 

@@ -76,6 +76,11 @@ namespace Aze.Utilities
             WriteLine(ConsoleColor.Magenta, text, argText);
         }
 
+        public static void Indent(int length,string filler=" ")
+        {
+            for (int i=0;i<length;i++) Console.Write(filler);
+        }
+
         public static void WriteLine(ConsoleColor c, string value, params object[] prms)
         {
             var regEx = new Regex("{[0-9]+}");

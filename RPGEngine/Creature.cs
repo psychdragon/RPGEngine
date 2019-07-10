@@ -6,7 +6,8 @@ using Aze.Utilities;
 
 namespace RPGEngine
 {
-    class Creature
+    
+    public class Creature : Entity
     {
         public string Name { set; get; }
         public string Description { set; get; }
@@ -17,11 +18,10 @@ namespace RPGEngine
         public int Attack { set; get; }
         public int Defence { set; get; }
 
-        public List<JObject> Items = new List<JObject>();
         public List<JObject> AttackMoves = new List<JObject>();
+        public List<JObject> Items = new List<JObject>();
 
-        
-        
+
         public Creature(string name, string description, string spriteImageFile="NoImage", int health=100, int level=0, int attack=0, int defence=0)
         {
             Name = name;
@@ -39,6 +39,12 @@ namespace RPGEngine
                 { "Description", "Forward charge. No weapons." },
                 { "Damage" , "1" }
             });
+
+            Position.X = GameUtils.RandomInt(0, 500);
+            Position.Y = GameUtils.RandomInt(0, 500);
+            Position.Z = 0;
+            Position.Reality = 0;
+            
         }
 
         
@@ -76,29 +82,14 @@ namespace RPGEngine
             
         }
 
-        public void GetStats()
+        public void SetPosition(int x,int y, int z=0, int reality = 0)
         {
-            foreach (var propertyInfo in GetType().GetProperties())
-            {
-                ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(this, null));
-            }
+            Position.X = x;
+            Position.Y = y;
+            Position.Z = z;
+            Position.Reality = reality;
         }
-
-        public void UpdateStats()
-        {
-            foreach (var propertyInfo in GetType().GetProperties())
-            {
-                ConsoleUtils.LogInfo("Type : {0}", propertyInfo.GetType().ToString());
-                string newValue = ConsoleUtils.GetFromConsole("{0} ({1}):", propertyInfo.Name, propertyInfo.GetValue(this, null));
-                if (newValue.Trim() != "")
-                {
-
-                    propertyInfo.SetValue(this, newValue, null);
-                }
-                //ConsoleUtils.LogOptions(propertyInfo.Name + " : {0}", propertyInfo.GetValue(creature, null));
-            }
-        }
-
+        
         public void TakeHit(int damage)
         {
             ConsoleUtils.LogDanger("{0} takes {1} damage", Name, damage);
@@ -118,5 +109,8 @@ namespace RPGEngine
             else return false;
         }
         
+
     }
+
+    
 }

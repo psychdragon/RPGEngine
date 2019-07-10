@@ -135,8 +135,17 @@ namespace RPGEngine
                 creatureList.Add(creaturestr);
             }
             
-            ConsoleUtils.LogInfo(creatureList.ToString());
-            IOUtils.SaveFile(IOUtils.AppSettings["CreatureList"].ToString(),creatureList.ToArray());
+            try
+            {
+                IOUtils.SaveFile(IOUtils.AppSettings["CreatureList"].ToString(), creatureList.ToArray());
+            } catch (Exception Ex)
+            {
+                ConsoleUtils.LogDanger("Error: {0}", Ex.Message);
+            } finally
+            {
+                ConsoleUtils.LogSuccess("Creature list has been successfully saved");
+            }
+            
             
         }
 
