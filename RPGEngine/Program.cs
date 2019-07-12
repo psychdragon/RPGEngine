@@ -9,7 +9,7 @@ namespace RPGEngine
         static void Main(string[] args)
         {
             World ThisWorld = new World();
-            Console.WriteLine("RPGENgine Console UI");
+            Console.WriteLine("RPGENgine - Created by Shahril Azwin Zainul Abidin (PsychDragon)");
             foreach(string arg in args)
             {
                 Console.WriteLine("- {0}", arg);

@@ -17,6 +17,8 @@ namespace RPGEngine
     {
         
         World ThisWorld;
+        WebUI webUI;
+
         public ConsoleUI()
         {
             IOUtils.LoadSettings();
@@ -30,11 +32,13 @@ namespace RPGEngine
 
             LoadCreatures();
             InitWorld();
-
+            webUI = new WebUI(ThisWorld);
+            webUI.Run();
             /*
             ThisWorld.AddCreature("Wolf", "Simple wolf. nothing fancy");
             ThisWorld.AddCreature("Dog", "Simple dog. nothing fancy");
             */
+            
             ConsoleUtils.DisplayMenu();
             CommandWait();
         }
@@ -195,7 +199,7 @@ namespace RPGEngine
         {
             foreach(Creature creature in ThisWorld.Creatures)
             {
-                creature.Move(1, GameUtils.RandomInt(0, 8));
+                creature.Move(GameUtils.RandomInt(0, 8));
             }
         }
 
@@ -204,9 +208,14 @@ namespace RPGEngine
             foreach(Creature creature in ThisWorld.Creatures)
             {
                 creature.SetPosition(GameUtils.RandomInt(0, ThisWorld.Borders.X), GameUtils.RandomInt(0, ThisWorld.Borders.Y));
+                creature.SetFaceDirection();
             }
         }
 
+        public void OpenBrowser()
+        {
+            webUI.InvokeBrowser();
+        }
 
         private void InitMenu()
         {
@@ -217,6 +226,7 @@ namespace RPGEngine
             ConsoleUtils.AddMenuItem("5", "Edit Creature", "EditCreature");
             ConsoleUtils.AddMenuItem("6", "Battle Test", "BattleTest");
             ConsoleUtils.AddMenuItem("7", "Move Test", "MoveTest");
+            ConsoleUtils.AddMenuItem("8", "Open Browser", "OpenBrowser");
             /*
             ConsoleUtils.AddMenuItem("6", "Add Setting", "AddSetting");
             ConsoleUtils.AddMenuItem("7", "Edit Settings", "EditSettings");
@@ -230,3 +240,4 @@ namespace RPGEngine
 
     }
 }
+

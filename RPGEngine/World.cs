@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Aze.Utilities;
 using Newtonsoft.Json;
+using System.Threading;
 
 
 namespace RPGEngine
 {
     class WorldBorders
     {
+        
+
         public int X { set; get; } = 50;
         public int Y { set; get; } = 50;
         public int Z { set; get; } = 50;
